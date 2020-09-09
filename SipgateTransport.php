@@ -50,7 +50,7 @@ final class SipgateTransport extends AbstractTransport
 
         $user = $response->toArray();
 
-        $endpoint = sprintf('https://%s/v1/%s/sms', $this->getEndpoint(), $user['sub']);
+        $endpoint = sprintf('https://%s/v2/%s/sms', $this->getEndpoint(), $user['sub']);
         $response = $this->client->request('GET', $endpoint, [
             'auth_basic' => [$this->username, $this->password]
         ]);
@@ -58,7 +58,7 @@ final class SipgateTransport extends AbstractTransport
         $smsIds = $response->toArray();
 
         if (!empty($smsIds['items'])) {
-            return $smsIds['items'][0]['id'];
+            return $this->smsId = $smsIds['items'][0]['id'];
         }
 
         return null;
